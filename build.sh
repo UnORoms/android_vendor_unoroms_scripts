@@ -13,7 +13,7 @@ lunchCombo=$3
 deviceid=$manufac_$device
 devicedir="$unoromdir/devices/$manufac/$device"
 
-repo forall git clean -d -f
+repo forall -c git clean -d -f
 
 repo sync -j10 -f $unoromdir/devices
 
