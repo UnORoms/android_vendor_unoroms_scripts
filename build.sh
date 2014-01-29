@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 source vendor/unoroms/scripts/functions.sh
 
