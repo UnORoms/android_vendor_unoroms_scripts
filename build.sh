@@ -11,6 +11,7 @@ unoromdir="vendor/unoroms"
 manufac=$1
 device=$2
 lunchCombo=$3
+maketarget=$4
 deviceid=$manufac_$device
 devicedir="$unoromdir/devices/$manufac/$device"
 
@@ -38,4 +39,4 @@ rm -rf out/target/product/$device
 
 . build/envsetup.sh
 lunch $lunchCombo
-make -j8 bacon
+make -j8 $maketarget

@@ -31,6 +31,13 @@ function checkInputParams() {
                 exit 1
         fi
 
+	echo "Make Target : $4"      
+        if ( isArgumentNull "$4" )
+        then
+                echo "Make Target is not specified"
+                exit 1
+        fi
+
 }
 
 function isArgumentNull() {
