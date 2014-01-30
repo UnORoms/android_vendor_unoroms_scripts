@@ -16,6 +16,7 @@ deviceid=$manufac_$device
 devicedir="$unoromdir/devices/$manufac/$device"
 
 repo forall -c git clean -d -f
+repo forall -c git reset --hard
 
 repo sync -j10 -f $unoromdir/devices
 
