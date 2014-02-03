@@ -59,10 +59,13 @@ fi
 lunch $lunchCombo
 make -j8 $maketarget
 
+CHANGELOG=`ls out/target/product/$device/ | grep md5sum | sed s/md5sum/changelog/g`
+
 if [ -f changelog ]
 then
-	CHANGELOG=`ls out/target/product/$device/ | grep md5sum | sed s/md5sum/changelog/g`
 	mv changelog out/target/product/$device/$CHANGELOG
+else
+	echo "Initial Release" > out/target/product/$device/$CHANGELOG
 fi
 
 echo $CURRTIME > lastSuccessRepoSync
