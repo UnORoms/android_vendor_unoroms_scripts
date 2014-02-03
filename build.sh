@@ -44,7 +44,7 @@ rm -rf out/target/product/$device
 if [ -f lastSuccessRepoSync ]
 then
 	LASTTIME=`cat lastSuccessRepoSync`
-	repo forall -p -c git log --since="$LASTTIME" > changelog
+	repo forall -p -c git log --since="$LASTTIME" --oneline > changelog
 	
 	if [ ! -s changelog ]
 	then
