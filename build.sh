@@ -37,7 +37,10 @@ then
 	. $devicedir/deviceSpecificPatch.sh
 fi
 
-cp -R $devicedir/overrides/* device/$manufac/$device/
+if [ "$(ls -A $devicedir/overrides )" ]
+then
+	cp -R $devicedir/overrides/* device/$manufac/$device/
+fi
 
 rm -rf out/target/product/$device
 
