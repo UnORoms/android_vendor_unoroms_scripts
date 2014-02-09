@@ -15,8 +15,7 @@ maketarget=$4
 deviceid=$manufac_$device
 devicedir="$unoromdir/devices/$manufac/$device"
 
-repo forall -c git clean -d -f
-repo forall -c git reset --hard
+repo forall -c git reset --hard && git clean -f -d
 
 repo sync -j10 -f $unoromdir/devices
 
