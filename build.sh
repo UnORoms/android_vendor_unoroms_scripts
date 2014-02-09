@@ -21,6 +21,9 @@ repo sync -j10 -f $unoromdir/devices
 
 cp $devicedir/manifest.xml .repo/local_manifests/unoroms_$deviceid.xml
 
+CURRTIME=`date "+%Y-%m-%d %H:%M"`
+echo $CURRTIME
+
 repo sync -j10 -f
 
 if [ -f $unoromdir/devices/romPatch.sh ]
@@ -33,10 +36,38 @@ then
 	. $devicedir/deviceSpecificPatch.sh
 fi
 
-cp -R $devicedir/overrides/* device/$manufac/$device/
+if [ "$(ls -A $devicedir/overrides )" ]
+then
+	cp -R $devicedir/overrides/* device/$manufac/$device/
+fi
 
 rm -rf out/target/product/$device
+
+if [ -f lastSuccessRepoSync ]
+then
+	LASTTIME=`cat lastSuccessRepoSync`
+	repo forall -p -c git log --since="$LASTTIME" --oneline > changelog
+	
+	if [ ! -s changelog ]
+	then
+		echo "No changes... Not building"
+		exit 0
+	fi
+fi
+
+
 
 . build/envsetup.sh
 lunch $lunchCombo
 make -j8 $maketarget
+
+CHANGELOG=`ls out/target/product/$device/ | grep md5sum | sed s/md5sum/changelog/g`
+
+if [ -f changelog ]
+then
+	mv changelog out/target/product/$device/$CHANGELOG
+else
+	echo "Initial Release" > out/target/product/$device/$CHANGELOG
+fi
+
+echo $CURRTIME > lastSuccessRepoSync
