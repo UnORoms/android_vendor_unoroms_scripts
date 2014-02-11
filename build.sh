@@ -19,6 +19,8 @@ repo forall -c "git reset --hard && git clean -f -d"
 
 repo sync -j10 -f $unoromdir/devices
 
+rm -f .repo/local_manifests/unoroms_*.xml
+
 cp $devicedir/manifest.xml .repo/local_manifests/unoroms_$deviceid.xml
 
 CURRTIME=`date "+%Y-%m-%d %H:%M"`
@@ -43,9 +45,9 @@ fi
 
 rm -rf out/target/product/$device
 
-if [ -f lastSuccessRepoSync ]
+if [ -f lastSuccessRepoSync_$device ]
 then
-	LASTTIME=`cat lastSuccessRepoSync`
+	LASTTIME=$(cat lastSuccessRepoSync_$device)
 	repo forall -p -c git log --since="$LASTTIME" --oneline > changelog
 	
 	if [ ! -s changelog ]
@@ -70,4 +72,4 @@ else
 	echo "Initial Release" > out/target/product/$device/$CHANGELOG
 fi
 
-echo $CURRTIME > lastSuccessRepoSync
+echo $CURRTIME > lastSuccessRepoSync_$device
