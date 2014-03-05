@@ -15,7 +15,16 @@ maketarget=$4
 deviceid=$manufac_$device
 devicedir="$unoromdir/devices/$manufac/$device"
 
-repo sync -j10 -f $unoromdir/devices
+if ( isArgumentNull "$5" )
+   then
+      jobs=8
+   else
+      jobs=$5
+fi
+
+echo "Using jobs : $jobs"
+
+repo sync -j$jobs -f $unoromdir/devices
 
 rm -f .repo/local_manifests/unoroms_*.xml
 
@@ -24,7 +33,7 @@ cp $devicedir/manifest.xml .repo/local_manifests/unoroms_$deviceid.xml
 CURRTIME=`date "+%Y-%m-%d %H:%M"`
 echo $CURRTIME
 
-repo sync -j10 -f
+repo sync -j$jobs -f
 
 if [ -f $unoromdir/devices/romPatch.sh ]
 then
@@ -59,7 +68,7 @@ fi
 
 . build/envsetup.sh
 lunch $lunchCombo
-make -j8 $maketarget
+make -j$jobs $maketarget
 
 CHANGELOG=`ls out/target/product/$device/ | grep md5sum | sed s/md5sum/changelog/g`
 
