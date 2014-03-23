@@ -12,10 +12,12 @@ manufac=$1
 device=$2
 lunchCombo=$3
 maketarget=$4
+devicebranch=$5
 deviceid=$manufac_$device
 devicedir="$unoromdir/devices/$manufac/$device"
+lastSyncFile="lastSuccessRepoSync_$device_$devicebranch"
 
-if ( isArgumentNull "$5" )
+if ( isArgumentNull "$6" )
    then
       jobs=8
    else
@@ -52,9 +54,9 @@ fi
 
 rm -rf out/target/product/$device
 
-if [ -f lastSuccessRepoSync_$device ]
+if [ -f $lastSyncFile ]
 then
-	LASTTIME=$(cat lastSuccessRepoSync_$device)
+	LASTTIME=$(cat $lastSyncFile)
 	repo forall -p -c git log --since="$LASTTIME" --oneline > changelog
 	
 	if [ ! -s changelog ]
@@ -79,4 +81,4 @@ else
 	echo "Initial Release" > out/target/product/$device/$CHANGELOG
 fi
 
-echo $CURRTIME > lastSuccessRepoSync_$device
+echo $CURRTIME > $lastSyncFile

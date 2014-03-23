@@ -38,6 +38,13 @@ function checkInputParams() {
                 exit 1
         fi
 
+	echo "Device Branch : $5"      
+        if ( isArgumentNull "$5" )
+        then
+                echo "Device Branch is not specified"
+                exit 1
+        fi
+
 }
 
 function isArgumentNull() {
