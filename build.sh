@@ -21,7 +21,7 @@ if ( isArgumentNull "$6" )
    then
       jobs=8
    else
-      jobs=$5
+      jobs=$6
 fi
 
 echo "Using jobs : $jobs"
