@@ -74,6 +74,11 @@ make -j$jobs $maketarget
 
 CHANGELOG=`ls out/target/product/$device/ | grep md5sum | sed s/md5sum/changelog/g`
 
+if ( isArgumentNull "$CHANGELOG" )
+then
+         CHANGELOG=`ls out/target/product/$device/ | grep md5 | sed s/md5/changelog/g`
+fi
+
 if [ -f changelog ]
 then
 	mv changelog out/target/product/$device/$CHANGELOG
